@@ -13,7 +13,20 @@ public static class Arrays
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
-        return []; // replace this return statement with your own
+        //1.Create the array
+        //2.Loop through the list
+        //3.Multiply the number and store it in the corresponding position
+        //4. Return the list with the results
+
+        double[] result = new double[length];
+    
+        for (int i = 0; i < length; i++)
+        {
+            
+            result[i] = number * (i + 1);
+        }
+
+        return result; 
     }
 
     /// <summary>
@@ -29,5 +42,19 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
+
+        //1.Find the split point
+        //2.Use GetRange to copy that section
+        //3.Use RemoveRange to delete that section from the list
+        //4.Use InsertRange to put the section at the front of the list
+
+        int splitPoint = data.Count - amount;
+
+        List<int> sectionMoved = data.GetRange(splitPoint, amount);
+
+        data.RemoveRange(splitPoint, amount);
+
+        data.InsertRange(0, sectionMoved);
+
     }
 }
