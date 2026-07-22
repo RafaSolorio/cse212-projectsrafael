@@ -21,8 +21,34 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+
+        // List to store pairs
+        var result = new List<string>();
+        // Set to store seen words
+        var seen = new HashSet<string>();
+
+        foreach (var word in words)
+        {
+            // Ignore if the two letters are the same
+            if (word[0] == word[1])
+            {
+                continue;
+            }
+
+            // Reverse the letters
+            string reversedWord = $"{word[1]}{word[0]}";
+
+            if (seen.Contains(reversedWord))
+            {
+                result.Add($"{word} & {reversedWord}");
+            }
+            else
+            {
+                seen.Add(word);
+            }
+        }
+
+        return result.ToArray();
     }
 
     /// <summary>
@@ -42,7 +68,21 @@ public static class SetsAndMaps
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            
+            // Degree is stored in column 4 
+            string degree = fields[3];
+
+            // Add degree to dictionary if this is the first time
+            if (!degrees.ContainsKey(degree))
+            {
+                degrees[degree] = 1;
+            }
+            else
+            {
+                // Otherwise increase the count by 1
+                degrees[degree]+= 1;
+            }
+
         }
 
         return degrees;
@@ -66,8 +106,54 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        //Remove any spaces and lowercase words
+        word1 = word1.Replace(" ", "").ToLower();
+        word2 = word2.Replace(" ", "").ToLower();
+
+        //Store each letter
+        var letters = new Dictionary<char, int>();
+
+        // Count each letter in word 1
+        foreach (char l in word1)
+        {
+            if (!letters.ContainsKey(l))
+            {
+                letters[l] = 1;
+            }
+            else
+            {
+                letters[l]++;
+            }
+        }
+
+
+        foreach (char l in word2)
+        {
+            //Check if the letter exists in word1
+            if (!letters.ContainsKey(l))
+            {
+                return false;
+            }
+
+            letters[l]--;
+
+            if (letters[l] < 0)
+            {   
+                //If there are more letters than we had it is not an anagram    
+                return false;
+            }
+        }
+
+        // Make sure all letteres were used the same number of times
+        foreach (var count in letters.Values)
+        {
+            if (count != 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// <summary>
