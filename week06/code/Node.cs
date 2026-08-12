@@ -1,3 +1,5 @@
+using System.Diagnostics.Tracing;
+
 public class Node
 {
     public int Data { get; set; }
@@ -11,7 +13,11 @@ public class Node
 
     public void Insert(int value)
     {
-        // TODO Start Problem 1
+        // If it's a duplicate this will not be added to the tree.
+        if (value == Data)
+        {
+            return;
+        }
 
         if (value < Data)
         {
@@ -33,13 +39,66 @@ public class Node
 
     public bool Contains(int value)
     {
-        // TODO Start Problem 2
-        return false;
+        // Base case 
+        if (value == Data)
+        {
+            return true;
+        }
+
+        // Search on the left
+        if (value < Data)
+        {
+            if (Left is null)
+            {
+                return false; // No more nodes to the left
+            }
+            else
+            {
+                return Left.Contains(value); // Keep looking for value
+            }
+        }    
+        // Search on the right
+        else
+        {
+            if (Right is null)
+            {
+                return false; // No more nodes to the right
+            }
+            else
+            {
+                return Right.Contains(value); // Keep looking for value
+            }
+        }
+
     }
 
     public int GetHeight()
     {
-        // TODO Start Problem 4
-        return 0; // Replace this line with the correct return statement(s)
+        // Height counters 
+        int leftBranch = 0;
+        int rightBranch = 0;
+
+        // Calculate height of left branch if it exists
+        if (Left != null)
+        {
+            leftBranch = Left.GetHeight();
+        }
+ 
+        // Calculate height of right branch if it exists
+        if (Right != null)
+        {
+            rightBranch = Right.GetHeight();
+        }
+
+        // Compare branches to get the height
+        if (leftBranch > rightBranch)
+        {
+            return leftBranch + 1;
+        }
+        else
+        {
+            return rightBranch + 1;
+        }
+        
     }
 }
